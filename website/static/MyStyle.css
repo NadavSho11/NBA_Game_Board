@@ -1,0 +1,19 @@
+#games-container {
+    text-align: center;
+}
+
+#GamesTable {
+    border-collapse: collapse;
+    text-align: center;
+    margin:auto;
+    font-size: 30px;
+    background-color: white;
+}
+
+#GamesTable tr {
+    border-bottom:1px solid black;
+}
+
+#Loading {
+    font-size:30px;
+}
