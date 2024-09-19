@@ -60,19 +60,15 @@ def get_data():
   response = requests.get(url, headers=heads)
   if response.status_code == 200:
     soup = BeautifulSoup(response.text, 'html.parser')
-
-    for game_info in soup.find_all('tr'):
-        game_data = game_info.find_all('td')
-        if game_data:
-            team1 = game_data[0].text
-            team2 = game_data[1].text[5:]
-            time = game_data[2].text
-            games.append({'teams1': team1, 'teams2': team2, 'time': time, 'timezone': nba_teams_time_zones[team2]})
-            print()
+    team1_divs = soup.find_all('span', class_="Table__Team away")
+    team2_divs = soup.find_all('td', class_="colspan__col Table__TD")
+    gameTime_divs = soup.find_all('td', class_="date__col Table__TD")
+    for i in range(0,len(team1_divs)):
+       games.append((team1_divs[i].get_text(),team2_divs[i].get_text(), gameTime_divs[i].get_text()))
 
   # Print or save the extracted data
-    for game in games:
-        print(f"{game['teams1']} - {game['teams2']} at {[game['time']]}")
+    for team1, team2, time in games:
+       print(f"{team1} vs {team2} at {time}")
     return jsonify({'games' : games})
   else:
     print("Failed to retrieve the webpage. Status code:", response.status_code) 
